@@ -1,0 +1,378 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Christ in the Scriptures</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,200..600;1,8..60,200..600&display=swap">
+<style>
+/* Layout: one reading column; eight numbered sessions (a real sequence), each pairing a Clowney lecture with two companion sermons; one shared player docked at the bottom. */
+:root{
+  --bg:#f7f4ee; --panel:#fffdf8; --ink:#45403a; --muted:#857d72; --line:#e3ddd1;
+  --accent:#7a2430; --accent-soft:#f3e4e2; --navy:#1d2b44; --ok:#2f6b4a; --ok-soft:#e2efe7;
+  --on-accent:#ffffff;
+  --serif:"Source Serif 4","Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#161513; --panel:#1f1d1a; --ink:#bdb6ab; --muted:#8a8378; --line:#35312b;
+  --accent:#e08a93; --accent-soft:#3a2427; --navy:#c9d4ea; --ok:#7cc59b; --ok-soft:#1e3328;
+  --on-accent:#1a1010; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#161513; --panel:#1f1d1a; --ink:#bdb6ab; --muted:#8a8378; --line:#35312b;
+  --accent:#e08a93; --accent-soft:#3a2427; --navy:#c9d4ea; --ok:#7cc59b; --ok-soft:#1e3328;
+  --on-accent:#1a1010; color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:300 17px/1.65 var(--serif);padding-bottom:150px}
+button,select{font:inherit;color:inherit}
+button{cursor:pointer}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.wrap{max-width:820px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.eyebrow{font:500 12px/1.2 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+header.hero{padding-block:52px 28px;border-bottom:1px solid var(--line)}
+h1{font-size:clamp(34px,6vw,50px);line-height:1.05;margin:12px 0 12px;font-weight:400;color:var(--navy);text-wrap:balance}
+.lede{font-size:19px;color:var(--muted);max-width:620px;margin:0}
+.charter{margin:24px 0 0;padding:14px 18px;border-left:3px solid var(--accent);background:var(--panel);font-style:italic;max-width:620px}
+.charter cite{display:block;font:normal 13px var(--sans);color:var(--muted);margin-top:6px}
+.stats{display:flex;gap:28px;flex-wrap:wrap;margin:24px 0 0;font-family:var(--sans)}
+.stats div{font-size:13px;color:var(--muted)}
+.stats b{display:block;font:400 24px/1.2 var(--serif);color:var(--ink);font-variant-numeric:tabular-nums}
+.bar{height:6px;background:var(--line);border-radius:3px;overflow:hidden;margin-top:6px}
+.bar i{display:block;height:100%;background:var(--accent);width:0;transition:width .3s}
+.overall{margin-top:20px;font:13px var(--sans);color:var(--muted);max-width:620px}
+section.how{padding-block:30px;border-bottom:1px solid var(--line)}
+h2{font-size:26px;margin:0 0 10px;color:var(--navy);font-weight:400;text-wrap:balance}
+.how ol{padding-left:22px;margin:8px 0 0}
+.how li{margin:6px 0}
+.note{font:13px/1.5 var(--sans);color:var(--muted);margin-top:16px}
+nav.toc{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:8px;margin-top:18px;font:14px var(--sans)}
+nav.toc a{display:flex;gap:10px;align-items:baseline;text-decoration:none;color:var(--ink);background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:9px 12px;min-width:0}
+nav.toc a:hover{border-color:var(--accent)}
+nav.toc .n{font-weight:500;color:var(--accent);min-width:18px;font-variant-numeric:tabular-nums}
+nav.toc .t{min-width:0}
+nav.toc .p{margin-left:auto;font-size:12px;color:var(--muted);white-space:nowrap;font-variant-numeric:tabular-nums}
+.session{padding-block:42px 20px;border-bottom:1px solid var(--line);scroll-margin-top:12px}
+.session h2{font-size:30px;margin:8px 0 2px}
+.session .ref{color:var(--muted);font-style:italic;margin:0 0 12px}
+.session p{margin:10px 0}
+h3{font:500 12px/1.3 var(--sans);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:24px 0 8px}
+ul.listen{margin:4px 0 0;padding-left:20px}
+ul.listen li{margin:4px 0}
+ol.tracks{list-style:none;margin:8px 0 0;padding:0;display:grid;gap:4px}
+.trk{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;align-items:start;padding:12px;border-radius:10px;border:1px solid transparent}
+.trk.lecture{background:var(--panel);border-color:var(--line)}
+.trk.playing{background:var(--accent-soft);border-color:var(--accent)}
+.play{width:42px;height:42px;border-radius:50%;border:1px solid var(--line);background:var(--panel);display:grid;place-items:center;margin-top:2px}
+.play:hover{border-color:var(--accent)}
+.play svg{width:14px;height:14px;fill:var(--accent)}
+.trk.done .play{background:var(--ok-soft);border-color:var(--ok)}
+.trk.done .play svg{fill:var(--ok)}
+.trk .body{min-width:0}
+.tag{font:500 11px/1 var(--sans);letter-spacing:.1em;text-transform:uppercase;color:var(--accent)}
+.trk.sermon .tag{color:var(--muted)}
+.tt{font-size:18px;line-height:1.3;font-weight:500;margin-top:4px}
+.tm{font:13px/1.5 var(--sans);color:var(--muted);margin-top:2px}
+.why{font-size:15px;margin-top:4px}
+.acts{display:flex;gap:14px;flex-wrap:wrap;margin-top:6px;font:13px var(--sans)}
+.acts button{background:none;border:0;padding:0;color:var(--muted);text-decoration:underline;text-underline-offset:2px}
+.acts button:hover{color:var(--accent)}
+.trk.done .acts .mark{color:var(--ok)}
+section.further{padding-block:42px 20px}
+footer{padding-block:28px 10px;font:13px/1.6 var(--sans);color:var(--muted)}
+/* docked player */
+.player{position:fixed;left:0;right:0;bottom:0;z-index:20;background:var(--panel);border-top:1px solid var(--line);padding-bottom:calc(10px + env(safe-area-inset-bottom,0px));padding-top:10px;box-shadow:0 -6px 24px rgba(0,0,0,.08)}
+.player .wrap{display:grid;grid-template-columns:auto 1fr auto;gap:6px 14px;align-items:center}
+.pbig{width:46px;height:46px;border-radius:50%;border:0;background:var(--accent);display:grid;place-items:center}
+.pbig svg{width:16px;height:16px;fill:var(--on-accent)}
+.pinfo{min-width:0}
+.pt{font:500 15px/1.3 var(--sans);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ps{font:12px var(--sans);color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pctl{display:flex;gap:6px;align-items:center;font:13px var(--sans)}
+.pctl button,.pctl select{border:1px solid var(--line);background:var(--bg);border-radius:6px;padding:5px 8px;font-size:13px}
+.seekrow{grid-column:1/-1;display:flex;gap:10px;align-items:center;font:12px var(--sans);color:var(--muted);font-variant-numeric:tabular-nums}
+.seekrow input{flex:1;min-width:0;accent-color:var(--accent)}
+.perr{grid-column:1/-1;font:13px var(--sans);color:var(--accent)}
+@media (max-width:560px){
+  .player .wrap{grid-template-columns:auto 1fr}
+  .pctl{grid-column:1/-1}
+  .pctl select{margin-left:auto}
+  .stats{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .lede{font-size:18px}
+  .session h2{font-size:26px}
+}
+@media (prefers-reduced-motion:reduce){.bar i{transition:none}}
+</style>
+</head>
+<body>
+
+<header class="hero"><div class="wrap">
+  <div class="eyebrow">Westminster Theological Seminary media archive · Listening series</div>
+  <h1>Christ in the Scriptures</h1>
+  <p class="lede">Edmund P. Clowney's eight-lecture course <i>Christ in All the Scriptures</i>, with two companion sermons for each lecture from WTS faculty and friends. Every recording streams from the seminary's archive.</p>
+  <blockquote class="charter">“All things must be fulfilled which were written in the law of Moses, and in the prophets, and in the psalms, concerning me.” Then opened he their understanding, that they might understand the scriptures.<cite>Luke 24:44–45, the text of Clowney's first lecture</cite></blockquote>
+  <div class="stats" id="stats"></div>
+  <div class="overall"><span id="overallTxt">Nothing marked as heard yet.</span><div class="bar"><i id="overallBar"></i></div></div>
+</div></header>
+
+<section class="how"><div class="wrap">
+  <h2>How to use this series</h2>
+  <ol>
+    <li>Work through one session a week. Each session is one lecture by Clowney (about an hour) and two shorter sermons that preach the same passage or theme.</li>
+    <li>Read the passage under the session title before you listen.</li>
+    <li>Hear the lecture first. Then hear the sermons and ask how each preacher moves from the text to Christ.</li>
+  </ol>
+  <p class="note">Press any play button to start. The player at the bottom keeps your place, and “Mark as heard” is saved in this browser only. Speed control is in the player. If a recording will not play here, use “Open in new tab” to stream it straight from the archive.</p>
+  <nav class="toc" id="toc" aria-label="Sessions"></nav>
+</div></section>
+
+<main id="sessions"></main>
+
+<section class="further"><div class="wrap">
+  <div class="eyebrow">After the course</div>
+  <h2>Going further</h2>
+  <p>Three more recordings for anyone who wants to keep going: Clowney preaching the method he taught, and two talks on why Westminster reads the Bible this way.</p>
+  <ol class="tracks" id="further"></ol>
+</div></section>
+
+<footer><div class="wrap">
+  <p>Recordings © Westminster Theological Seminary, streamed from the WTS media archive (media1.wts.edu). For personal and classroom study. Do not redistribute the audio without WTS permission.</p>
+  <p>The session notes are orientation for listeners. They are drawn from the lecture titles, their Scripture texts and Clowney's published teaching, and only the notes for session 1 were checked against a transcript. Dates and lengths come from the archive catalog.</p>
+</div></footer>
+
+<div class="player" id="player" hidden><div class="wrap">
+  <button class="pbig" id="pToggle" aria-label="Play"><svg viewBox="0 0 16 16" id="pIcon"><path d="M3 1.5v13l11-6.5z"/></svg></button>
+  <div class="pinfo"><div class="pt" id="pTitle"></div><div class="ps" id="pSub"></div></div>
+  <div class="pctl">
+    <button id="pBack" aria-label="Back 15 seconds">−15s</button>
+    <button id="pFwd" aria-label="Forward 30 seconds">+30s</button>
+    <label for="pRate" style="position:absolute;left:-9999px">Playback speed</label>
+    <select id="pRate"><option value="1">1×</option><option value="1.25">1.25×</option><option value="1.5">1.5×</option><option value="1.75">1.75×</option><option value="2">2×</option></select>
+  </div>
+  <div class="seekrow"><span id="pCur">0:00</span><input type="range" id="pSeek" min="0" max="1000" value="0" aria-label="Seek"><span id="pDur">0:00</span></div>
+  <div class="perr" id="pErr" hidden></div>
+</div></div>
+<audio id="audio" preload="none"></audio>
+
+<script>
+const A = "https://s3.amazonaws.com/media1.wts.edu/media/audio/";
+const SESSIONS = [
+ {ref:"Luke 24:44–45", title:"The Key Jesus Gave",
+  intro:"Clowney opens with Jesus' own claim after the resurrection: the Law, the Prophets and the Psalms are written about him. He then walks through the history of redemption starting at the Exodus. God brings Israel out in order to bring them to himself, and the question at Sinai becomes how a holy God can live among a stiff-necked people. That question finds its answer when the Word becomes flesh and tabernacles among us (John 1:14).",
+  listen:["Moses' plea in Exodus 33–34 that God go up “in the midst” of his people, and how Clowney links it to John 1:14.","Why the law is given to a people already redeemed, and what goes wrong when the commandments are preached without that setting.","How the marriage image runs through Scripture to show God's jealous love for his people."],
+  lec:{t:"Introduction", f:"ec801_copyright", d:"76 min", y:"1994", n:1},
+  sermons:[
+   {t:"Burning Hearts", by:"Martyn Lloyd-Jones", sc:"Luke 24:13–35", d:"56 min", y:"", f:"mlj01-copyright", why:"The Emmaus road, where the risen Jesus first opens the Scriptures to his disciples. A guest sermon in the WTS archive."},
+   {t:"Christ in the Old Testament", by:"Douglas J. Green", sc:"Psalm 30; Luke 24:44", d:"29 min", y:"2010", f:"green09-10-10-copyright", why:"A WTS Old Testament professor takes the same charter text into a psalm of thanksgiving."}]},
+ {ref:"Matthew 4:1–11", title:"The Son in the Wilderness",
+  intro:"The second lecture continues the introduction from the temptation of Jesus. Israel, God's son, was tested forty years in the wilderness and failed. Jesus, the true Son, is tested forty days and answers each time from Deuteronomy, the book of Israel's wilderness lessons. Here the Old Testament is not only predicted; it is lived out again and fulfilled.",
+  listen:["The parallels between Israel's forty years and Jesus' forty days.","Why each of Jesus' answers comes from Deuteronomy 6–8.","How Clowney explains that Christ fulfills Israel's calling, not only its prophecies."],
+  lec:{t:"Introduction (continued)", f:"ec802_copyright", d:"71 min", y:"1994", n:2},
+  sermons:[
+   {t:"Christ in the Scriptures: What Is the Bible?", by:"Richard B. Gaffin Jr.", sc:"", d:"54 min", y:"2010", f:"denverfcgaffin1-copyright", why:"Gaffin's conference address under this series' own title: the Bible as God's word about his Son."},
+   {t:"Temptation II", by:"Edward T. Welch", sc:"Matthew 4:1–4", d:"17 min", y:"2005", f:"ch05ew1-copyright", why:"A short chapel message on the first temptation, from a biblical counselor's angle."}]},
+ {ref:"John 8:18–19", title:"Jesus Shows the Father",
+  intro:"“If you knew me, you would know my Father also.” Clowney turns from Christ as the goal of Old Testament history to Christ as the one who makes God known. The God who came down on Sinai is now seen in the Son. Reading the Old Testament for Christ is also reading it to know the Father.",
+  listen:["The Old Testament line “the Lord himself will come” and how it meets in Jesus.","Why seeing Christ in the Old Testament is a way of knowing God, not only a method of interpretation."],
+  lec:{t:"Jesus Shows the Father", f:"ec803_copyright", d:"80 min", y:"1994", n:3},
+  sermons:[
+   {t:"The Father's Welcome", by:"Edmund P. Clowney", sc:"Luke 15:11–32", d:"47 min", y:"1973", f:"ec731_copyright", why:"Clowney preaching the parable of the prodigal son: the Father's heart, shown by the Son who tells the story."},
+   {t:"Reflections on the Person and Work of Jesus", by:"Lane G. Tipton", sc:"Hebrews 1:1–4", d:"17 min", y:"2004", f:"chlt041-copyright", why:"God, who spoke in the prophets, has spoken in his Son, the radiance of his glory."}]},
+ {ref:"Psalm 22", title:"The Forsaken Son",
+  intro:"Clowney continues the theme at the cross. Jesus' cry “My God, my God, why have you forsaken me?” takes up the opening of Psalm 22. The Son shows the Father most fully where he is forsaken for us, and the psalm that begins in abandonment ends with praise among the nations.",
+  listen:["How the psalm moves from lament (vv. 1–21) to praise in the assembly (vv. 22–31).","What it means that Jesus prays this psalm as his own."],
+  lec:{t:"Jesus Shows the Father (continued)", f:"ec804_copyright", d:"58 min", y:"1994", n:4},
+  sermons:[
+   {t:"Christ's Cry of Psalm 22", by:"George C. Fuller", sc:"Psalm 22; Matthew 27:45–50; John 19:28–30", d:"32 min", y:"1992", f:"sp922-fuller-copyright", why:"A former WTS president preaches the cry from the cross through the whole psalm."},
+   {t:"God Does Not Forsake His Servant", by:"Sandy Finlayson", sc:"Psalm 22", d:"11 min", y:"2006", f:"ch0607sf01-copyright", why:"A short chapel meditation on the same psalm, from forsakenness to deliverance."}]},
+ {ref:"Psalm 22; Hebrews 2:12", title:"Christ Sings the Psalms",
+  intro:"Clowney now turns to the Psalms as a whole. Hebrews 2:12 puts Psalm 22:22 in Jesus' mouth: “I will declare your name to my brothers; in the midst of the congregation I will sing your praise.” Christ is the Lord the psalms address, and he is also the one who leads his people in singing them. This lecture also sets up the move to wisdom literature in sessions 7 and 8.",
+  listen:["The two ways Christ is present in a psalm: as the Lord addressed and as the singer.","How the king of Israel stands between God and the people in the royal psalms."],
+  lec:{t:"Psalms and Wisdom Literature", f:"ec805_copyright", d:"73 min", y:"1994", n:5},
+  sermons:[
+   {t:"Singing Christ", by:"Edmund P. Clowney", sc:"Psalm 22; John 3:16; Romans 15:8", d:"53 min", y:"", f:"ec109_copyright", why:"Clowney preaches the same idea to a congregation: Christ sings among his people, and they sing of him."},
+   {t:"The Messiah as the Ideal Penitent: Chronicles and Psalm 51", by:"Douglas J. Green", sc:"Psalm 51", d:"26 min", y:"2008", f:"ch030408dg1-greeting", why:"A harder case. How can the sinless Christ pray a psalm of confession? Green offers an answer."}]},
+ {ref:"Psalm 90", title:"The Work of Our Hands",
+  intro:"Psalm 90 is the only psalm credited to Moses. It sets human frailty against the eternity of God and ends with a prayer: “Let the favor of the Lord our God be upon us, and establish the work of our hands.” Clowney reads this prayer of a dying generation in light of the one whose work God did establish.",
+  listen:["The contrast between “from everlasting to everlasting” and “we are like grass.”","Where the psalm's closing prayer is answered."],
+  lec:{t:"Psalms", f:"ec806_copyright", d:"62 min", y:"1994", n:6},
+  sermons:[
+   {t:"Beautiful Years", by:"Edmund P. Clowney", sc:"Psalm 90", d:"52 min", y:"1979", f:"ec111_copyright", why:"Clowney preaching Psalm 90 fifteen years before the lecture. Compare the sermon with the classroom."},
+   {t:"Numbering Our Days", by:"Bruce Waltke", sc:"Psalm 90", d:"19 min", y:"1989", f:"bwsl1-waltke-copyright", why:"The Old Testament scholar's short reading of the same psalm."}]},
+ {ref:"1 Kings 4:29–34", title:"Greater Than Solomon",
+  intro:"God gave Solomon wisdom “like the sand on the seashore,” and kings came from every nation to hear it. Jesus says, “Something greater than Solomon is here” (Matthew 12:42). Clowney takes on the part of the Old Testament that seems least about Christ: proverbs, sayings and reflections on ordinary life.",
+  listen:["Why wisdom begins with the fear of the Lord.","How Solomon's wisdom draws the nations, and what that points to.","Christ as the one “in whom are hidden all the treasures of wisdom” (Colossians 2:3)."],
+  lec:{t:"Wisdom Literature", f:"ec807_copyright", d:"59 min", y:"1994", n:7},
+  sermons:[
+   {t:"The Wisdom of God", by:"Edmund P. Clowney", sc:"Deuteronomy 1:29–33", d:"40 min", y:"", f:"ec511_copyright", why:"From Clowney's course Preaching the Christ of the Gospels: Jesus as the wisdom of God."},
+   {t:"The Gift of Wisdom", by:"Bruce Waltke", sc:"Proverbs 1:1–7", d:"72 min", y:"1989", f:"ss03_copyright", why:"A careful reading of the prologue to Proverbs by its leading evangelical commentator. Longer; take it in two sittings."}]},
+ {ref:"Proverbs 26:4–5", title:"Answering a Fool",
+  intro:"“Answer not a fool according to his folly … Answer a fool according to his folly.” Two proverbs that seem to contradict each other close the course. Wisdom is not a rule book. It is skill in living under God, knowing which word fits which moment. That wisdom is fully seen in Christ, who answered and was silent at the right times, and who “became to us wisdom from God” (1 Corinthians 1:30).",
+  listen:["Why the two sayings stand side by side.","How wisdom literature deals with suffering and the limits of human understanding.","How the course comes back to its starting claim."],
+  lec:{t:"Wisdom Literature (continued)", f:"ec808_copyright", d:"78 min", y:"1994", n:8},
+  sermons:[
+   {t:"Formation of Christian Character", by:"Bruce Waltke", sc:"Proverbs 2:1–11", d:"34 min", y:"1987", f:"bw103_copyright", why:"How the proverbs shape a person over time."},
+   {t:"Theme of the Book of Job", by:"Cornelius Van Til", sc:"Job 19:25–26", d:"59 min", y:"", f:"vt136_copyright", why:"Wisdom at its limit: Van Til on Job and “I know that my Redeemer lives.”"}]}
+];
+const FURTHER = [
+ {t:"Stairway of God", by:"Edmund P. Clowney", sc:"Genesis 28:10–17; John 1:51", d:"46 min", y:"1975", f:"ec201_copyright", why:"Jacob's ladder to Jesus' promise to Nathanael. Clowney's method in one sermon."},
+ {t:"Preaching Christ", by:"James Montgomery Boice", sc:"Luke 24:13–35", d:"41 min", y:"1998", f:"pc982-copyright", why:"The Emmaus road again, from a preaching conference at WTS."},
+ {t:"Biblical Theology as a Distinctive of Westminster", by:"Vern S. Poythress", sc:"Luke 24; Exodus 33", d:"24 min", y:"2009", f:"poythress09-18-09-copyright", why:"Why this way of reading the Bible is central to the seminary's teaching."}
+];
+
+/* ---------- state ---------- */
+const store = {
+  get(k, d){ try{ const v = localStorage.getItem("cits:"+k); return v==null ? d : JSON.parse(v); }catch(e){ return d; } },
+  set(k, v){ try{ localStorage.setItem("cits:"+k, JSON.stringify(v)); }catch(e){} }
+};
+let heard = store.get("heard", {});
+let pos = store.get("pos", {});
+
+const tracks = {};  // id -> track
+function mins(d){ return parseInt(d, 10) || 0; }
+function esc(s){ return String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
+const ICON_PLAY = '<path d="M3 1.5v13l11-6.5z"/>';
+const ICON_PAUSE = '<path d="M3 1.5h3.5v13H3zM9.5 1.5H13v13H9.5z"/>';
+
+function trackHTML(tr, kind){
+  tracks[tr.id] = tr;
+  const meta = [tr.by, tr.sc, tr.y, tr.d].filter(Boolean).map(esc).join(" · ");
+  return `<li class="trk ${kind}" data-id="${tr.id}">
+    <button class="play" data-play="${tr.id}" aria-label="Play ${esc(tr.t)}"><svg viewBox="0 0 16 16">${ICON_PLAY}</svg></button>
+    <div class="body">
+      <div class="tag">${kind === "lecture" ? "Lecture " + tr.n + " of 8" : "Companion sermon"}</div>
+      <div class="tt">${esc(tr.t)}</div>
+      <div class="tm">${meta}</div>
+      ${tr.why ? `<div class="why">${esc(tr.why)}</div>` : ""}
+      <div class="acts">
+        <button class="mark" data-mark="${tr.id}"></button>
+        <a href="${A + tr.f}.mp3" target="_blank" rel="noopener">Open in new tab ↗</a>
+      </div>
+    </div></li>`;
+}
+
+function render(){
+  let toc = "", html = "", totL = 0, totS = 0;
+  SESSIONS.forEach((s, i) => {
+    const n = i + 1;
+    const lec = Object.assign({id:"L"+n, by:"Edmund P. Clowney", sc:s.ref, why:""}, s.lec);
+    const sers = s.sermons.map((x, j) => Object.assign({id:"S"+n+"-"+(j+1)}, x));
+    const m = mins(lec.d) + sers.reduce((a, x) => a + mins(x.d), 0);
+    totL += mins(lec.d); totS += sers.reduce((a, x) => a + mins(x.d), 0);
+    toc += `<a href="#session-${n}"><span class="n">${n}</span><span class="t">${esc(s.title)}</span><span class="p" data-sprog="${n}"></span></a>`;
+    html += `<section class="session" id="session-${n}"><div class="wrap">
+      <div class="eyebrow">Session ${n} · about ${Math.round(m/60*2)/2} hours</div>
+      <h2>${esc(s.title)}</h2>
+      <p class="ref">${esc(s.ref)}</p>
+      <p>${esc(s.intro)}</p>
+      <h3>Listen for</h3>
+      <ul class="listen">${s.listen.map(x => `<li>${esc(x)}</li>`).join("")}</ul>
+      <h3>Listen</h3>
+      <ol class="tracks">${trackHTML(lec, "lecture")}${sers.map(x => trackHTML(x, "sermon")).join("")}</ol>
+    </div></section>`;
+  });
+  document.getElementById("toc").innerHTML = toc;
+  document.getElementById("sessions").innerHTML = html;
+  document.getElementById("further").innerHTML = FURTHER.map((x, j) => trackHTML(Object.assign({id:"F"+(j+1)}, x), "sermon")).join("");
+  document.getElementById("stats").innerHTML =
+    `<div><b>8</b>sessions</div><div><b>${Math.round(totL/60)} h</b>of lectures</div><div><b>16</b>companion sermons</div><div><b>${Math.round(totS/60)} h</b>of sermons</div>`;
+  refresh();
+}
+
+function refresh(){
+  document.querySelectorAll(".trk").forEach(el => {
+    const id = el.dataset.id, done = !!heard[id];
+    el.classList.toggle("done", done);
+    el.querySelector(".mark").textContent = done ? "✓ Heard (undo)" : "Mark as heard";
+  });
+  SESSIONS.forEach((s, i) => {
+    const n = i + 1, ids = ["L"+n, "S"+n+"-1", "S"+n+"-2"];
+    const c = ids.filter(id => heard[id]).length;
+    document.querySelector(`[data-sprog="${n}"]`).textContent = c ? `${c}/3` : "";
+  });
+  const all = Object.keys(tracks).filter(id => id[0] !== "F");
+  const c = all.filter(id => heard[id]).length;
+  document.getElementById("overallBar").style.width = (c / all.length * 100) + "%";
+  document.getElementById("overallTxt").textContent = c ? `You have heard ${c} of ${all.length} recordings.` : "Nothing marked as heard yet.";
+  setIcons();
+}
+
+/* ---------- player ---------- */
+const audio = document.getElementById("audio");
+const $ = id => document.getElementById(id);
+let cur = null, lastSave = 0;
+
+function fmt(t){ if(!isFinite(t)) return "0:00"; t = Math.floor(t); const h = Math.floor(t/3600), m = Math.floor(t%3600/60), s = t%60;
+  return (h ? h + ":" + String(m).padStart(2,"0") : m) + ":" + String(s).padStart(2,"0"); }
+
+function setIcons(){
+  const playing = cur && !audio.paused;
+  document.querySelectorAll(".trk").forEach(el => {
+    const on = cur && el.dataset.id === cur.id;
+    el.classList.toggle("playing", !!on);
+    el.querySelector(".play svg").innerHTML = on && playing ? ICON_PAUSE : ICON_PLAY;
+  });
+  $("pIcon").innerHTML = playing ? ICON_PAUSE : ICON_PLAY;
+  $("pToggle").setAttribute("aria-label", playing ? "Pause" : "Play");
+}
+
+function load(id){
+  const tr = tracks[id];
+  if (cur && cur.id === id) { audio.paused ? audio.play().catch(showErr) : audio.pause(); return; }
+  saveNow();
+  cur = tr;
+  $("pErr").hidden = true;
+  $("player").hidden = false;
+  $("pTitle").textContent = tr.t;
+  $("pSub").textContent = [tr.by, tr.sc].filter(Boolean).join(" · ");
+  audio.src = A + tr.f + ".mp3";
+  audio.playbackRate = parseFloat($("pRate").value);
+  const start = pos[id] || 0;
+  if (start > 5) audio.addEventListener("loadedmetadata", () => { audio.currentTime = start; }, {once:true});
+  audio.play().catch(showErr);
+  setIcons();
+}
+
+function showErr(){
+  if (!cur) return;
+  $("pErr").hidden = false;
+  $("pErr").innerHTML = `This recording would not play inside the page. <a href="${A + cur.f}.mp3" target="_blank" rel="noopener">Open it in a new tab ↗</a>`;
+  setIcons();
+}
+
+function saveNow(){ if (cur && audio.currentTime > 0) { pos[cur.id] = audio.currentTime; store.set("pos", pos); } }
+
+audio.addEventListener("play", setIcons);
+audio.addEventListener("pause", () => { saveNow(); setIcons(); });
+audio.addEventListener("error", () => { if (audio.getAttribute("src")) showErr(); });
+audio.addEventListener("loadedmetadata", () => { $("pDur").textContent = fmt(audio.duration); });
+audio.addEventListener("timeupdate", () => {
+  $("pCur").textContent = fmt(audio.currentTime);
+  if (audio.duration) $("pSeek").value = Math.round(audio.currentTime / audio.duration * 1000);
+  const now = Date.now(); if (now - lastSave > 5000) { lastSave = now; saveNow(); }
+});
+audio.addEventListener("ended", () => {
+  if (!cur) return;
+  heard[cur.id] = true; store.set("heard", heard);
+  pos[cur.id] = 0; store.set("pos", pos);
+  refresh();
+});
+$("pSeek").addEventListener("input", e => { if (audio.duration) audio.currentTime = e.target.value / 1000 * audio.duration; });
+$("pToggle").addEventListener("click", () => { if (cur) load(cur.id); });
+$("pBack").addEventListener("click", () => { audio.currentTime = Math.max(0, audio.currentTime - 15); });
+$("pFwd").addEventListener("click", () => { audio.currentTime = Math.min(audio.duration || 1e9, audio.currentTime + 30); });
+$("pRate").addEventListener("change", e => { audio.playbackRate = parseFloat(e.target.value); store.set("rate", e.target.value); });
+$("pRate").value = store.get("rate", "1");
+
+document.addEventListener("click", e => {
+  const p = e.target.closest("[data-play]"); if (p) { load(p.dataset.play); return; }
+  const m = e.target.closest("[data-mark]");
+  if (m) { const id = m.dataset.mark; if (heard[id]) delete heard[id]; else heard[id] = true; store.set("heard", heard); refresh(); }
+});
+window.addEventListener("pagehide", saveNow);
+
+render();
+</script>
+
+</body>
+</html>
